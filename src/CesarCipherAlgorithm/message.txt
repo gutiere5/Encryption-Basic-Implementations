@@ -1,0 +1,7 @@
+This is a top secret message intended for the Java encryption test.
+The primary objective is to validate the efficacy of the Caeser cipher algorithm currently under development.
+We must ensure that the encryption and decryption processes are perfectly symmetrical.
+This means that a message encrypted with a specific key, when decrypted with the same key, must return the original plaintext data exactly,
+without any loss or alteration of characters, including whitespace and punctuation. This test will involve multiple keys, ranging from 1 to 6.
+Subsequent tests will need to explore edge cases, such as handling wrap-around for characters at the end of the ASCII table and processing non-alphabetic symbols.
+All results must be logged. This operation is classified.
