@@ -1,27 +1,15 @@
 package DiffieHellmanAlgorithm;
 
+import java.math.BigInteger;
+
 public class DiffieHellman {
 
-    private static long power(long base, long exponent, long modulus) {
+    private static BigInteger power(BigInteger base, BigInteger exponent, BigInteger modulus) {
         /*
         * Reference Link:
         * https://en.wikipedia.org/wiki/Modular_exponentiation
         */
-
-        long result = 1;
-        base %= modulus;
-
-        while (exponent > 0) {
-            // If exponent is odd, multiply base with result
-            if ((exponent & 1) == 1) {
-                result = (result * base) % modulus;
-            }
-
-            // Exponent must be even now
-            exponent = exponent >> 1; // exponent = exponent / 2
-            base = (base * base) % modulus; // Change base to base^2
-        }
-        return result;
+        return base.modPow(exponent, modulus);
     }
 
     static void main() {
@@ -31,42 +19,56 @@ public class DiffieHellman {
          * https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
          *
          */
+        BigInteger P, G, a, b, X, Y, Ka, Kb;
 
-        long p, g, a, b, A, B, x, y;
 
+        // --- 1. Agreement on Public Values P and G ---
         // Both the persons will be agreed upon the
         // public keys g and p
 
         // A prime number p is taken for the modulus arithmetic
-        p = 23;
-        System.out.println("The value of modulus p:" + p);
+        P = new BigInteger("23");
+        System.out.println("The value of modulus P:" + P);
 
         // A primitive root for p, g is taken as the base
-        g = 5;
-        System.out.println("The value of base g:" + g);
+        G = new BigInteger("5");
+        System.out.println("The value of base G:" + G);
 
-        // Alice will choose the private key a
-        // a is the chosen private key
-        a = 4;
-        System.out.println("The private key a for Alice:" + a);
+        // --- 2. Alice's Steps ---
+        // Alice chooses the private key 'a'
+        a = new BigInteger("4");
+        System.out.println("\nAlice's private key 'a': " + a);
 
-        // Gets the generated key from Alice to send to Bob
-        A = power(g, a, p);
+        // Alice calculates her public key X = G^a mod P
+        X = power(G, a, P);
+        System.out.println("Alice's public key 'X': " + X);
 
-        // Bob will choose the private key b
-        // b is the chosen private key
-        b = 3;
-        System.out.println("The private key b for Bob:" + b);
+        // --- 3. Bob's Steps ---
 
-        // Gets the generated key from Bob to send to Alice
-        B = power(g, b, p);
+        // Bob chooses the private key 'b'
+        b = new BigInteger("3");
+        System.out.println("\nBob's private key 'b': " + b);
 
-        // Generating the secret key after the exchange of key
-        x = power(B, a, p); // Secret key for Alice
-        y = power(A, b, p); // Secret key for Bob
+        // Bob calculates his public key Y = G^b mod P
+        Y = power(G, b, P);
+        System.out.println("Bob's public key 'Y': " + Y);
 
-        System.out.println("Secret key for the Alice is: " + x);
-        System.out.println("Secret key for the Bob is: " + y);
+        // --- 4. Key Exchange and Calculation of Shared Secret ---
+
+        // Alice calculates the shared secret Ka = Y^a mod P (where Y is Bob's public key)
+        Ka = power(Y, a, P); // Y^a mod P
+
+        // Bob calculates the shared secret Kb = X^b mod P (where X is Alice's public key)
+        Kb = power(X, b, P); // X^b mod P
+
+        System.out.println("\nSecret key for the Alice is: " + Ka);
+        System.out.println("Secret key for the Bob is: " + Kb);
+
+        if (Ka.equals(Kb)) {
+            System.out.println("Keys match");
+        } else {
+            System.out.println("Keys do not match");
+        }
     }
 
 }
