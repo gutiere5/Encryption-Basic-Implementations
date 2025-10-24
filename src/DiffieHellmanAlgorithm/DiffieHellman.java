@@ -6,9 +6,9 @@ public class DiffieHellman {
 
     private static BigInteger power(BigInteger base, BigInteger exponent, BigInteger modulus) {
         /*
-        * Reference Link:
-        * https://en.wikipedia.org/wiki/Modular_exponentiation
-        */
+         * Reference Link:
+         * https://en.wikipedia.org/wiki/Modular_exponentiation
+         */
         return base.modPow(exponent, modulus);
     }
 
@@ -27,16 +27,17 @@ public class DiffieHellman {
         // public keys g and p
 
         // A prime number p is taken for the modulus arithmetic
-        P = new BigInteger("23");
+        P = new BigInteger("11");
+
         System.out.println("The value of modulus P:" + P);
 
         // A primitive root for p, g is taken as the base
-        G = new BigInteger("5");
+        G = new BigInteger("2");
         System.out.println("The value of base G:" + G);
 
         // --- 2. Alice's Steps ---
         // Alice chooses the private key 'a'
-        a = new BigInteger("4");
+        a = new BigInteger("6");
         System.out.println("\nAlice's private key 'a': " + a);
 
         // Alice calculates her public key X = G^a mod P
@@ -46,7 +47,7 @@ public class DiffieHellman {
         // --- 3. Bob's Steps ---
 
         // Bob chooses the private key 'b'
-        b = new BigInteger("3");
+        b = new BigInteger("8");
         System.out.println("\nBob's private key 'b': " + b);
 
         // Bob calculates his public key Y = G^b mod P
@@ -68,7 +69,7 @@ public class DiffieHellman {
             System.out.println("Keys match");
         } else {
             System.out.println("Keys do not match");
+
         }
     }
-
 }
